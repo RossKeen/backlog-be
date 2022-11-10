@@ -1,5 +1,5 @@
 const format = require("pg-format");
-const db = require("./index.js");
+const db = require("../connection.js");
 
 const seed = async (data) => {
   const { gamesData, filmsData, booksData } = data;
@@ -42,17 +42,17 @@ const seed = async (data) => {
 
   const insertGamesQueryStr = format(
     "INSERT INTO games (game_title, category, status, finished, created_at) VALUES %L RETURNING *;",
-    gamesData.map(({ game_title, category, status, finished, created_at }) => [game_title, category, status, finished, created_at])
+    gamesData.map(({ title, category, status, finished, created_at }) => [title, category, status, finished, created_at])
   );
 
   const insertFilmsQueryStr = format(
     "INSERT INTO films (film_title, director, category, status, finished, created_at) VALUES %L RETURNING *;",
-    filmsData.map(({ film_title, director, category, status, finished, created_at }) => [film_title, director, category, status, finished, created_at])
+    filmsData.map(({ title, director, category, status, finished, created_at }) => [title, director, category, status, finished, created_at])
   );
 
   const insertBooksQueryStr = format(
     "INSERT INTO books (book_title, author, category, status, finished, created_at) VALUES %L RETURNING *;",
-    filmsData.map(({ book_title, author, category, status, finished, created_at }) => [book_title, author, category, status, finished, created_at])
+    filmsData.map(({ title, author, category, status, finished, created_at }) => [title, author, category, status, finished, created_at])
   );
 
   const gamesPromise = db.query(insertGamesQueryStr).then((result) => result.rows);

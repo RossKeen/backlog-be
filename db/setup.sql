@@ -1,0 +1,5 @@
+DROP DATABASE IF EXISTS backlog_test;
+DROP DATABASE IF EXISTS backlog;
+
+CREATE DATABASE backlog_test;
+CREATE DATABASE backlog;
