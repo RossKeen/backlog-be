@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { getEndpoints } = require("./controllers/api.js");
+const { handleCustomErrors, handlePsqlErrors, handleServerErrors } = require("./errors/errors.js");
 
 app.get("/api", getEndpoints);
 
