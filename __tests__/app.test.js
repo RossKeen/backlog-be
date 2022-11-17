@@ -67,4 +67,65 @@ describe("/entries", () => {
         });
     });
   });
+  describe("POST", () => {
+    test("201: Should add an entry to entries db", () => {
+      return request(app)
+        .post("/api/entries")
+        .send({
+          title: "Life of Pi",
+          artist: "Yann Martel",
+          category: "Book",
+          status: "Completed",
+          finished: true,
+        })
+        .expect(201)
+        .expect("Content-Type", "application/json; charset=utf-8")
+        .then(({ body }) => {
+          const { postedEntry } = body;
+          expect(postedEntry).toEqual(
+            expect.objectContaining({
+              id: 13,
+              title: "Life of Pi",
+              artist: "Yann Martel",
+              category: "Book",
+              status: "Completed",
+              finished: true,
+              created_at: expect.any(String),
+            })
+          );
+          return db.query("SELECT COUNT(id) AS entry_count FROM entries;");
+        })
+        .then(({ rows }) => {
+          expect(rows[0].entry_count).toBe("13");
+        });
+    });
+    describe("Error handling", () => {
+      test("400: Throws an error when an invalid data type is sent on the request", () => {
+        return request(app)
+          .post("/api/entries")
+          .send({
+            title: "Life of Pi",
+            artist: "Yann Martel",
+            category: "Book",
+            status: "Completed",
+            finished: "indeed!",
+          })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Error 400: Bad request");
+          });
+      });
+      test("400: Throws an error when a request is missing a required field", () => {
+        return request(app)
+          .post("/api/entries")
+          .send({
+            title: "Life of Pi",
+          })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Error 400: Bad request");
+          });
+      });
+    });
+  });
 });
