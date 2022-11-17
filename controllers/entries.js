@@ -8,7 +8,11 @@ exports.getEntries = (req, res, next) => {
 
 exports.postEntry = (req, res, next) => {
   const newEntry = req.body;
-  addEntry(newEntry).then((postedEntry) => {
-    res.status(201).send({ postedEntry });
-  });
+  addEntry(newEntry)
+    .then((postedEntry) => {
+      res.status(201).send({ postedEntry });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
