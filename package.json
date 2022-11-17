@@ -2,10 +2,12 @@
   "name": "backlog-be",
   "version": "1.0.0",
   "description": "A backend for my backlog project",
-  "main": "app.js",
+  "main": "listen.js",
   "scripts": {
+    "start": "node listen.js",
     "dev": "nodemon listen.js",
     "seed": "node ./db/seeds/run-seed.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
     "setup-dbs": "psql -f ./db/setup.sql",
     "test": "jest"
   },
