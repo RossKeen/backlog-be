@@ -12,6 +12,17 @@ afterAll(() => {
   return db.end();
 });
 
+describe("404: Resource not found errors", () => {
+  test("404: Should respond with an appropriate error message if the user enters a path that does not exist", () => {
+    return request(app)
+      .get("/api/not_existant_path")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Error 404: Not found");
+      });
+  });
+});
+
 describe("/api", () => {
   describe("GET", () => {
     test("200: responds with a list of all endpoints", () => {
