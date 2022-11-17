@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const app = express();
 const { send404 } = require("./controllers/404.js");
@@ -5,6 +6,7 @@ const { getEndpoints } = require("./controllers/api.js");
 const { getEntries, postEntry } = require("./controllers/entries.js");
 const { handleCustomErrors, handlePsqlErrors, handleServerErrors } = require("./errors/errors.js");
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/api", getEndpoints);
