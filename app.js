@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const { send404 } = require("./controllers/404.js");
 const { getEndpoints } = require("./controllers/api.js");
-const { getEntries, postEntry } = require("./controllers/entries.js");
+const { getEntries, postEntry, patchEntry } = require("./controllers/entries.js");
 const { handleCustomErrors, handlePsqlErrors, handleServerErrors } = require("./errors/errors.js");
 
 app.use(cors());
@@ -13,6 +13,7 @@ app.get("/api", getEndpoints);
 
 app.get("/api/entries", getEntries);
 app.post("/api/entries", postEntry);
+app.patch("/api/entries/:entry_id", patchEntry);
 
 app.all("*", send404);
 

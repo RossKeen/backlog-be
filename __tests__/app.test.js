@@ -128,4 +128,28 @@ describe("/entries", () => {
       });
     });
   });
+  describe("PATCH", () => {
+    test("200: Should update the status of the specified entry", () => {
+      return request(app)
+        .patch("/api/entries/1")
+        .send({
+          status: "Completed",
+        })
+        .expect(200)
+        .then(({ body }) => {
+          const { patchedEntry } = body;
+          expect(patchedEntry).toEqual(
+            expect.objectContaining({
+              id: 1,
+              title: "Mordew",
+              artist: "Alex Pheby",
+              category: "Book",
+              status: "Completed",
+              finished: true,
+              created_at: expect.any(String),
+            })
+          );
+        });
+    });
+  });
 });
